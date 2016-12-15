@@ -6,12 +6,15 @@
 
 	<s:http>
 		<s:intercept-url pattern="/eod/*.json" access="authenticated" />
-		<s:csrf disabled="true" />
+		<!-- <s:csrf disabled="true" /> -->
+		<s:csrf token-repository-ref="tokenRepository"/>
+		<s:custom-filter ref="csrfHeaderFilter" after="CSRF_FILTER" />
 		<s:http-basic/>
 	</s:http>
 
 
-	<!-- Simple namespace-based configuration -->
+	<!-- Simple namespace-based configuration 
+	-->
 
 	<s:ldap-server ldif="classpath:users.ldif"/>
 
@@ -27,6 +30,13 @@
 
 
 	<!-- Traditional Bean version of the same configuration -->
+	
+	<bean id="tokenRepository" class="org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository">
+	<property name="headerName" value="X-XSRF-TOKEN"/>
+	</bean>
+	
+	<bean id="csrfHeaderFilter" class="net.codejava.spring.CsrfHeaderFilter">
+	</bean>
 
 	<!-- This bean points at the embedded directory server created by the ldap-server element above  -->
 	<bean id="contextSource" class="org.springframework.security.ldap.DefaultSpringSecurityContextSource">

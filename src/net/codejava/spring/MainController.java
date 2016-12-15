@@ -9,14 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value="/eod")
 public class MainController {
-	
 
-	
 	@GetMapping(path = "/simplepage", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public String visitHomeJson() {
 		return "vinod";
 	}
-	
 	
 	@RequestMapping(value="/adminjson", method = RequestMethod.GET)
 	public String visitAdminJson() {
